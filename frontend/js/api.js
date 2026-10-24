@@ -5,10 +5,10 @@
 
 const API_CONFIG = {
   // If running locally -> http://127.0.0.1:5000/api
-  
+  // In production -> https://period-dashboard.onrender.com/api
   BASE_URL: (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
     ? 'http://127.0.0.1:5000/api'
-    : (window.__API_URL__ || 'https://period-dashboard.onrender.com'),
+    : (window.__API_URL__ || 'https://period-dashboard.onrender.com/api'),
   
   TIMEOUT_MS: 30000
 };
