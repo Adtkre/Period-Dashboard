@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cycle Insights — Sophisticated Menstrual Cycle Analytics & Machine Learning Prediction Dashboard">
+  <title>Cycle Insights — Menstrual Cycle Analysis & Prediction</title>
+  
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css?v=2">
+  <link rel="stylesheet" href="css/components.css?v=2">
+  <link rel="stylesheet" href="css/responsive.css?v=2">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Collapsible Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="brand" onclick="window.app.navigateTo('overview'); return false;">
+          <div class="brand-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
+              <path d="M12 6a6 6 0 0 0-6 6c0 3.31 2.69 6 6 6a6 6 0 0 0 6-6"/>
+            </svg>
+          </div>
+          <div class="brand-info">
+            <span class="brand-title">Cycle Insights</span>
+            <span class="brand-tagline">Health Analytics</span>
+          </div>
+        </a>
+        <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" title="Toggle Sidebar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Analytics & Insights</div>
+        
+        <div class="nav-item active" data-page="overview">
+          <div class="nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+          </div>
+          <span>Overview</span>
+        </div>
+
+        <div class="nav-item" data-page="eda">
+          <div class="nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+          </div>
+          <span>Exploratory EDA</span>
+        </div>
+
+        <div class="nav-item" data-page="patterns">
+          <div class="nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+          </div>
+          <span>Cycle Patterns</span>
+        </div>
+
+        <div class="nav-item" data-page="correlations">
+          <div class="nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M8 12h8"></path>
+              <path d="M12 8v8"></path>
+            </svg>
+          </div>
+          <span>Lifestyle Factors</span>
+        </div>
+
+        <div class="nav-section-label">Predictive ML</div>
+
+        <div class="nav-item" data-page="prediction">
+          <div class="nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
+          <span>Period Prediction</span>
+        </div>
+
+        <div class="nav-item" data-page="evaluation">
+          <div class="nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <span>Model Evaluation</span>
+        </div>
+
+        <div class="nav-section-label">Data Explorer</div>
+
+        <div class="nav-item" data-page="dataset">
+          <div class="nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <span>Dataset Explorer</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="dataset-badge">
+          <div class="status-dot" id="status-dot" title="Checking API status..."></div>
+          <div class="brand-info">
+            <span class="dataset-name">menstrual_cycle_dataset</span>
+            <span class="dataset-sub">895 Cycles • 100 Users</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+      
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="page-breadcrumb">
+          <button class="sidebar-toggle-btn" id="mobile-menu-btn" style="display: none;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <span class="breadcrumb-app">Cycle Insights</span>
+          <span class="breadcrumb-separator">/</span>
+          <span class="breadcrumb-current" id="topbar-page-name">Overview</span>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="health-pill">
+            <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--sage-accent);"></span>
+            <span id="health-pill-text">API Connected</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content Container -->
+      <main class="content-container">
+
+        <!-- ===================================================================
+             1. OVERVIEW PAGE VIEW
+             =================================================================== -->
+        <section class="page-view active" id="view-overview">
+          <div class="view-header">
+            <h1 class="view-header-title">Executive Cycle Overview</h1>
+            <p class="view-header-description">
+              Longitudinal analysis of 895 recorded menstrual cycles across 100 cohorts, examining biological cycle distributions, timing variability, and lifestyle determinants.
+            </p>
+          </div>
+
+          <!-- Loading state -->
+          <div id="overview-loading" class="loading-container" style="display: none;">
+            <div class="spinner"></div>
+            <span>Fetching dataset metrics...</span>
+          </div>
+
+          <!-- Dynamic KPI Grid -->
+          <div class="grid-kpi">
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Total Cycle Records</span>
+                <span class="kpi-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                </span>
+              </div>
+              <div class="kpi-value" id="kpi-total-records">895</div>
+              <div class="kpi-subtext">Verified longitudinal logs</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Unique Cohorts</span>
+                <span class="kpi-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                </span>
+              </div>
+              <div class="kpi-value" id="kpi-unique-users">100</div>
+              <div class="kpi-subtext">Multi-cycle tracking per user</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Mean Cycle Length</span>
+                <span class="kpi-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </span>
+              </div>
+              <div class="kpi-value" id="kpi-avg-cycle">37.4d</div>
+              <div class="kpi-subtext">Standard deviation: ±7.5d</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Median Cycle Length</span>
+                <span class="kpi-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                </span>
+              </div>
+              <div class="kpi-value" id="kpi-median-cycle">37.0d</div>
+              <div class="kpi-subtext">IQR: 31.0d – 43.0d</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Mean Period Duration</span>
+                <span class="kpi-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+                </span>
+              </div>
+              <div class="kpi-value" id="kpi-avg-period">5.0d</div>
+              <div class="kpi-subtext">Range: 3 to 7 days</div>
+            </div>
+          </div>
+
+          <!-- Charts Row 1 -->
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-main">
+                  <h3 class="card-title">Cycle Length Distribution</h3>
+                  <span class="card-subtitle">Cohort cycle durations grouped in 4-day intervals</span>
+                </div>
+                <span class="badge badge-rose">Tertile Breakdown</span>
+              </div>
+              <div class="card-body">
+                <div class="chart-wrapper">
+                  <canvas id="chart-cycle-dist"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-main">
+                  <h3 class="card-title">Period Duration Distribution</h3>
+                  <span class="card-subtitle">Active menstruation bleeding duration</span>
+                </div>
+                <span class="badge badge-sage">Days Range: 3-7</span>
+              </div>
+              <div class="card-body">
+                <div class="chart-wrapper">
+                  <canvas id="chart-period-dist"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chronological Trend Chart -->
+          <div class="card" style="margin-bottom: 28px;">
+            <div class="card-header">
+              <div class="card-header-main">
+                <h3 class="card-title">Cycle Timing Stability Over Time</h3>
+                <span class="card-subtitle">Average cycle duration across successive chronological cycles (Cycle 1 to 12)</span>
+              </div>
+              <span class="badge badge-muted">Longitudinal Cohort Average</span>
+            </div>
+            <div class="card-body">
+              <div class="chart-wrapper">
+                <canvas id="chart-cycle-trends"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Data Quality Summary -->
+          <div class="card" style="margin-bottom: 28px;">
+            <div class="card-header">
+              <div class="card-header-main">
+                <h3 class="card-title">Dataset Quality & Completeness Audit</h3>
+                <span class="card-subtitle">Automated structural verification of observational data records</span>
+              </div>
+              <span class="badge badge-sage">Zero Missing Fields</span>
+            </div>
+            <div class="card-body">
+              <div id="quality-stats-list"></div>
+            </div>
+          </div>
+
+          <!-- Key Findings Derived from Actual EDA -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-main">
+                <h3 class="card-title">Key Clinical & Statistical Findings</h3>
+                <span class="card-subtitle">Empirical patterns derived from cohort data analysis</span>
+              </div>
+              <span class="badge badge-rose">Data-Derived</span>
+            </div>
+            <div class="card-body">
+              <div class="findings-grid" id="findings-container"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             2. EXPLORATORY DATA ANALYSIS (EDA) PAGE VIEW
+             =================================================================== -->
+        <section class="page-view" id="view-eda">
+          <div class="view-header">
+            <h1 class="view-header-title">Exploratory Data Analysis</h1>
+            <p class="view-header-description">
+              Examine distributional characteristics, quartile dispersion, and physiological/lifestyle stratifications. Use the interactive filter toolbar to analyze specific cohorts.
+            </p>
+          </div>
+
+          <!-- Interactive Filter Toolbar -->
+          <div class="filter-bar">
+            <div class="filter-group-container">
+              <div class="filter-item">
+                <label class="filter-label" for="eda-filter-age">Age Cohort</label>
+                <select class="form-select" id="eda-filter-age">
+                  <option value="">All Age Groups</option>
+                  <option value="18-24">18–24 years</option>
+                  <option value="25-34">25–34 years</option>
+                  <option value="35-44">35–44 years</option>
+                  <option value="45+">45+ years</option>
+                </select>
+              </div>
+
+              <div class="filter-item">
+                <label class="filter-label" for="eda-filter-bmi">BMI Category</label>
+                <select class="form-select" id="eda-filter-bmi">
+                  <option value="">All BMI Categories</option>
+                  <option value="Normal">Normal (18.5–24.9)</option>
+                  <option value="Overweight">Overweight (25–29.9)</option>
+                </select>
+              </div>
+
+              <div class="filter-item">
+                <label class="filter-label" for="eda-filter-stress">Stress Level</label>
+                <select class="form-select" id="eda-filter-stress">
+                  <option value="">All Stress Levels</option>
+                  <option value="1">Level 1 (Minimal)</option>
+                  <option value="2">Level 2 (Mild)</option>
+                  <option value="3">Level 3 (Moderate)</option>
+                  <option value="4">Level 4 (High)</option>
+                  <option value="5">Level 5 (Severe)</option>
+                </select>
+              </div>
+
+              <div class="filter-item">
+                <label class="filter-label" for="eda-filter-exercise">Exercise Level</label>
+                <select class="form-select" id="eda-filter-exercise">
+                  <option value="">All Exercise Levels</option>
+                  <option value="Low">Low</option>
+                  <option value="Moderate">Moderate</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+
+              <div class="filter-item">
+                <label class="filter-label" for="eda-filter-diet">Diet Type</label>
+                <select class="form-select" id="eda-filter-diet">
+                  <option value="">All Diets</option>
+                  <option value="Balanced">Balanced</option>
+                  <option value="Vegetarian">Vegetarian</option>
+                  <option value="Low Carb">Low Carb</option>
+                  <option value="High Sugar">High Sugar</option>
+                </select>
+              </div>
+            </div>
+
+            <button class="btn btn-outline btn-sm" id="eda-filter-reset">
+              Reset Filters
+            </button>
+          </div>
+
+          <!-- Loading state -->
+          <div id="eda-loading" class="loading-container" style="display: none;">
+            <div class="spinner"></div>
+            <span>Updating distributions...</span>
+          </div>
+
+          <!-- Quartile Box Stats -->
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <div class="card-header-main">
+                <h3 class="card-title">Cycle Length Quartiles & Box Dispersion</h3>
+                <span class="card-subtitle">Distributional statistics for current cohort slice</span>
+              </div>
+              <span class="badge badge-rose" id="eda-record-count-badge">895 cycles analyzed</span>
+            </div>
+            <div class="card-body">
+              <div class="phases-grid" id="eda-box-stats"></div>
+            </div>
+          </div>
+
+          <!-- Demographics Row -->
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-main">
+                  <h3 class="card-title">Age Distribution</h3>
+                  <span class="card-subtitle">Cohort age demographics across 5-year strata</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-wrapper">
+                  <canvas id="chart-eda-age"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-main">
+                  <h3 class="card-title">BMI Stratification</h3>
+                  <span class="card-subtitle">Metabolic weight category representation</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-wrapper">
+                  <canvas id="chart-eda-bmi"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Categorical Comparisons Grid -->
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-main">
+                  <h3 class="card-title">Cycle Length by Age Group</h3>
+                  <span class="card-subtitle">Mean cycle length across age brackets</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-wrapper">
+                  <canvas id="chart-eda-by-age"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-main">
+                  <h3 class="card-title">Cycle Length by BMI Group</h3>
+                  <span class="card-subtitle">Mean cycle length by metabolic category</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-wrapper">
+                  <canvas id="chart-eda-by-bmi"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-main">
+                  <h3 class="card-title">Cycle Length by Exercise Frequency</h3>
+                  <span class="card-subtitle">Comparison across physical activity regimens</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-wrapper">
+                  <canvas id="chart-eda-by-exercise"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-main">
+                  <h3 class="card-title">Cycle Length by Dietary Pattern</h3>
+                  <span class="card-subtitle">Nutritional category comparisons</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-wrapper">
+                  <canvas id="chart-eda-by-diet"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-main">
+                  <h3 class="card-title">Cycle Length by Stress Level</h3>
+                  <span class="card-subtitle">Perceived stress scale (1 to 5)</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-wrapper">
+                  <canvas id="chart-eda-by-stress"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-main">
+                  <h3 class="card-title">Cycle Length by Sleep Duration</h3>
+                  <span class="card-subtitle">Circadian sleep duration strata</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-wrapper">
+                  <canvas id="chart-eda-by-sleep"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Interpretations Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-main">
+                <h3 class="card-title">Analytical Interpretations</h3>
+                <span class="card-subtitle">Dynamic findings based on active filter cohort</span>
+              </div>
+              <span class="badge badge-sage">Verified Insights</span>
+            </div>
+            <div class="card-body">
+              <ul id="eda-interpretations-list" style="padding-left: 20px;"></ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             3. CYCLE PATTERNS PAGE VIEW
+             =================================================================== -->
+        <section class="page-view" id="view-patterns">
+          <div class="view-header">
+            <h1 class="view-header-title">Cycle Patterns & Individual Trajectory</h1>
+            <p class="view-header-description">
+              Analyze intra-individual variability versus population norms, evaluate short versus extended cycle characteristics, and explore personal cycle progressions over time.
+            </p>
+          </div>
+
+          <!-- Loading state -->
+          <div id="patterns-loading" class="loading-container" style="display: none;">
+            <div class="spinner"></div>
+            <span>Loading cycle patterns...</span>
+          </div>
+
+          <!-- Variability KPI Cards -->
+          <div class="grid-3">
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Average Personal SD</span>
+                <span class="kpi-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                </span>
+              </div>
+              <div class="kpi-value" id="pattern-avg-std">±6.8d</div>
+              <div class="kpi-subtext">Individual cycle-to-cycle variability</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Median Personal SD</span>
+                <span class="kpi-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                </span>
+              </div>
+              <div class="kpi-value" id="pattern-median-std">±6.8d</div>
+              <div class="kpi-subtext">Typical personal standard deviation</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Personal SD Range</span>
+                <span class="kpi-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </span>
+              </div>
+              <div class="kpi-value" id="pattern-range-std">2.1d – 10.9d</div>
+              <div class="kpi-subtext">Lowest to highest cohort variability</div>
+            </div>
+          </div>
+
+          <!-- Variability Distribution Chart -->
+          <div class="card" style="margin-bottom: 28px;">
+            <div class="card-header">
+              <div class="card-header-main">
+                <h3 class="card-title">Distribution of Personal Cycle Variability</h3>
+                <span class="card-subtitle">How consistent are individuals across their recorded cycles?</span>
+              </div>
+              <span class="badge badge-rose">Intra-User Variation</span>
+            </div>
+            <div class="card-body">
+              <div class="chart-wrapper">
+                <canvas id="chart-user-variability"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tier Comparison Table -->
+          <div class="card" style="margin-bottom: 28px;">
+            <div class="card-header">
+              <div class="card-header-main">
+                <h3 class="card-title">Comparative Analysis: Short vs Moderate vs Extended Cycles</h3>
+                <span class="card-subtitle">Factor averages across cycle length tertiles</span>
+              </div>
+              <span class="badge badge-muted">Tertile Comparison</span>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive" id="pattern-tiers-table"></div>
+            </div>
+          </div>
+
+          <!-- Individual User Longitudinal Explorer -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-main">
+                <h3 class="card-title" id="selected-user-headline">Longitudinal History for User #1</h3>
+                <span class="card-subtitle" id="selected-user-meta">9 recorded cycles • Personal Average: 37.0 days</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <label for="pattern-user-select" style="font-size: 0.82rem; font-weight: 600; color: var(--text-muted);">Select Cohort:</label>
+                <select class="form-select" id="pattern-user-select" style="width: 140px;"></select>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- Timeline Chart -->
+              <div class="chart-wrapper" style="margin-bottom: 24px;">
+                <canvas id="chart-user-timeline"></canvas>
+              </div>
+
+              <!-- Cycle Sequence Table -->
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Cycle Sequence</th>
+                      <th>Cycle Start Date</th>
+                      <th>Cycle Length</th>
+                      <th>Period Length</th>
+                      <th>Diff from Personal Mean</th>
+                      <th>Stress Level</th>
+                      <th>Sleep Hours</th>
+                      <th>Primary Symptom</th>
+                    </tr>
+                  </thead>
+                  <tbody id="user-history-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             4. LIFESTYLE CORRELATIONS PAGE VIEW
+             =================================================================== -->
+        <section class="page-view" id="view-correlations">
+          <div class="view-header">
+            <h1 class="view-header-title">Lifestyle & Clinical Correlations</h1>
+            <p class="view-header-description">
+              Evaluate empirical correlations between physiological factors, stress scores, sleep duration, exercise, and cycle length.
+            </p>
+          </div>
+
+          <!-- Loading state -->
+          <div id="correlations-loading" class="loading-container" style="display: none;">
+            <div class="spinner"></div>
+            <span>Computing correlation matrix...</span>
+          </div>
+
+          <!-- Methodological Causality Banner -->
+          <div class="disclaimer-banner" style="margin-bottom: 24px;">
+            <span class="disclaimer-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            </span>
+            <div>
+              <strong>Methodological Guidance:</strong>
+              <span id="causality-disclaimer-text">
+                The relationships displayed represent statistical associations within this observational dataset and do not imply direct causation. Endocrine rhythms are governed by multifactorial hypothalamic-pituitary-ovarian feedback.
+              </span>
+            </div>
+          </div>
+
+          <!-- Correlation Heatmap Matrix Table -->
+          <div class="card" style="margin-bottom: 28px;">
+            <div class="card-header">
+              <div class="card-header-main">
+                <h3 class="card-title">Pearson Correlation Matrix</h3>
+                <span class="card-subtitle">Pairwise correlation coefficients across continuous variables (-1.0 to +1.0)</span>
+              </div>
+              <span class="badge badge-rose">Heatmap</span>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive" id="correlation-matrix-grid"></div>
+            </div>
+          </div>
+
+          <!-- Lifestyle Charts Grid -->
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-main">
+                  <h3 class="card-title">Stress Level vs Cycle Length</h3>
+                  <span class="card-subtitle">Mean cycle length across stress ratings</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-wrapper">
+                  <canvas id="chart-stress-vs-cycle"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-main">
+                  <h3 class="card-title">Sleep Duration vs Cycle Length</h3>
+                  <span class="card-subtitle">Mean cycle length by daily sleep duration</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-wrapper">
+                  <canvas id="chart-sleep-vs-cycle"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Symptoms Analysis -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-main">
+                <h3 class="card-title">Perimenstrual Symptom Prevalence</h3>
+                <span class="card-subtitle">Frequency of reported primary symptoms across 895 recorded cycles</span>
+              </div>
+              <span class="badge badge-muted">Symptomatology</span>
+            </div>
+            <div class="card-body">
+              <div class="chart-wrapper">
+                <canvas id="chart-symptoms-freq"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             5. PERIOD PREDICTION PAGE VIEW
+             =================================================================== -->
+        <section class="page-view" id="view-prediction">
+          <div class="view-header">
+            <h1 class="view-header-title">Next Period Prediction</h1>
+            <p class="view-header-description">
+              Utilize the trained Random Forest machine learning pipeline to estimate next cycle length category, projected calendar date, fertile window, and biological phases.
+            </p>
+          </div>
+
+          <!-- Prediction Input Form Card -->
+          <div class="card" style="margin-bottom: 28px;">
+            <div class="card-header">
+              <div class="card-header-main">
+                <h3 class="card-title">Clinical & Lifestyle Inputs</h3>
+                <span class="card-subtitle">Enter cycle history and current lifestyle indicators</span>
+              </div>
+              <span class="badge badge-rose">Model Inputs</span>
+            </div>
+            <div class="card-body">
+              <form id="prediction-form">
+                <div class="prediction-form-grid">
+                  <div class="form-group">
+                    <label for="pred-last-date">Last Period Start Date *</label>
+                    <input type="date" class="form-input" id="pred-last-date" required>
+                    <span class="form-hint">First day of active menstrual flow</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pred-age">Age (years) *</label>
+                    <input type="number" class="form-input" id="pred-age" min="15" max="55" value="28" required>
+                    <span class="form-hint">Dataset cohort: 18 – 45</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pred-bmi">BMI *</label>
+                    <input type="number" step="0.1" class="form-input" id="pred-bmi" min="15" max="45" value="23.2" required>
+                    <span class="form-hint">E.g., 22.5 (Normal: 18.5–24.9)</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pred-stress">Perceived Stress (1-5) *</label>
+                    <select class="form-select" id="pred-stress" required>
+                      <option value="1">1 — Minimal / Relaxed</option>
+                      <option value="2">2 — Low</option>
+                      <option value="3" selected>3 — Moderate</option>
+                      <option value="4">4 — High</option>
+                      <option value="5">5 — Very High</option>
+                    </select>
+                    <span class="form-hint">Current emotional / work stress</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pred-sleep">Average Sleep (Hours/Night) *</label>
+                    <input type="number" step="0.1" class="form-input" id="pred-sleep" min="4" max="12" value="7.5" required>
+                    <span class="form-hint">Range: 5.1 – 9.0 hrs</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pred-exercise">Exercise Frequency *</label>
+                    <select class="form-select" id="pred-exercise" required>
+                      <option value="Low">Low (&lt;2 days/week)</option>
+                      <option value="Moderate" selected>Moderate (3-4 days/week)</option>
+                      <option value="High">High (5+ days/week)</option>
+                    </select>
+                    <span class="form-hint">Routine physical activity</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pred-diet">Nutritional Pattern *</label>
+                    <select class="form-select" id="pred-diet" required>
+                      <option value="Balanced" selected>Balanced Diet</option>
+                      <option value="Vegetarian">Vegetarian Diet</option>
+                      <option value="Low Carb">Low Carb Diet</option>
+                      <option value="High Sugar">High Sugar / Processed</option>
+                    </select>
+                    <span class="form-hint">Primary dietary structure</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pred-period-length">Period Bleeding Length (Days) *</label>
+                    <input type="number" class="form-input" id="pred-period-length" min="2" max="10" value="5" required>
+                    <span class="form-hint">Mean: 5 days (Range: 3-7)</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pred-symptoms">Primary Perimenstrual Symptom *</label>
+                    <select class="form-select" id="pred-symptoms" required>
+                      <option value="Cramps" selected>Cramps (Dysmenorrhea)</option>
+                      <option value="Fatigue">Fatigue</option>
+                      <option value="Bloating">Bloating</option>
+                      <option value="Headache">Headache</option>
+                      <option value="Mood Swings">Mood Swings</option>
+                    </select>
+                    <span class="form-hint">Dominant somatic/mood symptom</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pred-prev-length">Previous Cycle Length (Days)</label>
+                    <input type="number" class="form-input" id="pred-prev-length" min="20" max="60" value="36">
+                    <span class="form-hint">Length of immediately preceding cycle</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pred-hist-mean">Historical Average Cycle (Days)</label>
+                    <input type="number" step="0.1" class="form-input" id="pred-hist-mean" min="20" max="60" value="36.5">
+                    <span class="form-hint">Personal running mean</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pred-hist-std">Cycle Variability / SD (Days)</label>
+                    <input type="number" step="0.1" class="form-input" id="pred-hist-std" min="0" max="15" value="2.8">
+                    <span class="form-hint">Personal standard deviation</span>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; align-items: center; justify-content: flex-end; padding-top: 14px; border-top: 1px solid var(--border-subtle);">
+                  <button type="button" class="btn btn-outline" id="pred-reset-btn">Reset</button>
+                  <button type="submit" class="btn btn-primary" id="pred-submit-btn">
+                    <span>Generate ML Prediction</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Dynamic Prediction Results Panel -->
+          <div id="prediction-results-container" style="display: none;">
+            
+            <!-- Result Highlight Panel -->
+            <div class="prediction-result-panel" style="margin-bottom: 28px;">
+              <div class="prediction-highlight-box">
+                <div class="pred-date-group">
+                  <span class="pred-date-label">Estimated Next Period Date</span>
+                  <div class="pred-date-value" id="res-predicted-date">—</div>
+                  <div class="pred-window-tag" id="res-window-range">Estimated window: ±2 days</div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 16px;">
+                  <span class="badge badge-rose" id="res-category-badge" style="font-size: 0.95rem; padding: 8px 16px;">
+                    Moderate (33-41d)
+                  </span>
+                  <div class="pred-countdown-badge">
+                    <div class="countdown-number" id="res-countdown-value">12d</div>
+                    <div class="countdown-label" id="res-countdown-label">Days Remaining</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Cycle Length Estimates Comparison -->
+              <div class="phases-grid">
+                <div class="phase-item">
+                  <span class="phase-title">Category Estimate</span>
+                  <span class="phase-val" id="res-predicted-length">37 days</span>
+                  <span class="phase-desc">Classification class mean</span>
+                </div>
+                <div class="phase-item">
+                  <span class="phase-title">Probability-Weighted</span>
+                  <span class="phase-val" id="res-weighted-length">36.8 days</span>
+                  <span class="phase-desc">Multi-class expectation</span>
+                </div>
+                <div class="phase-item">
+                  <span class="phase-title">Continuous RF Regressor</span>
+                  <span class="phase-val" id="res-regressor-length">37.1 days</span>
+                  <span class="phase-desc">Regression pipeline baseline</span>
+                </div>
+              </div>
+
+              <!-- Class Probabilities -->
+              <div>
+                <h4 style="color: var(--burgundy-deep); margin-bottom: 12px;">
+                  Model Class Probability Distribution
+                </h4>
+                <div class="prob-list" id="res-probability-list"></div>
+              </div>
+
+              <!-- Interactive Calendar Visualization -->
+              <div class="cycle-calendar-container">
+                <div class="calendar-header">
+                  <span class="calendar-month-title" id="res-calendar-month-title">Calendar Projection</span>
+                  <span class="badge badge-sage">Phase Timeline</span>
+                </div>
+                <div class="calendar-weekdays">
+                  <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+                </div>
+                <div class="calendar-grid" id="res-calendar-grid"></div>
+                <div class="calendar-legend">
+                  <div class="legend-item">
+                    <div class="legend-swatch" style="background-color: #f7d4dc; border: 1px solid #eebcc8;"></div>
+                    <span>Last Period Bleeding</span>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-swatch" style="background-color: #eaf3ee; border: 1px solid #c7ded1;"></div>
+                    <span>Estimated Fertile Window</span>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-swatch" style="background-color: #789285;"></div>
+                    <span>Estimated Ovulation Day</span>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-swatch" style="background-color: #5e2634;"></div>
+                    <span>Predicted Period Start</span>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-swatch" style="background-color: #fae2e6; border: 1px dashed #c97b84;"></div>
+                    <span>Uncertainty Window (±2d)</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Estimated Biological Phases Breakdown -->
+              <div>
+                <h4 style="color: var(--burgundy-deep); margin-bottom: 12px;">
+                  Estimated Biological Phases
+                </h4>
+                <div class="phases-grid">
+                  <div class="phase-item">
+                    <span class="phase-title">Menstrual Flow</span>
+                    <span class="phase-val" id="phase-menstrual">5 days</span>
+                    <span class="phase-desc">Active bleeding</span>
+                  </div>
+                  <div class="phase-item">
+                    <span class="phase-title">Follicular Phase</span>
+                    <span class="phase-val" id="phase-follicular">~23 days</span>
+                    <span class="phase-desc">Variable pre-ovulatory span</span>
+                  </div>
+                  <div class="phase-item">
+                    <span class="phase-title">Estimated Ovulation</span>
+                    <span class="phase-val" id="phase-ovulation" style="font-size: 0.95rem;">2026-11-11</span>
+                    <span class="phase-desc">~14 days prior to menses</span>
+                  </div>
+                  <div class="phase-item">
+                    <span class="phase-title">Fertile Window</span>
+                    <span class="phase-val" id="phase-fertile" style="font-size: 0.85rem;">Nov 6 – Nov 12</span>
+                    <span class="phase-desc">Peak conception likelihood</span>
+                  </div>
+                  <div class="phase-item">
+                    <span class="phase-title">Luteal Phase</span>
+                    <span class="phase-val" id="phase-luteal">~14 days</span>
+                    <span class="phase-desc">Post-ovulatory progesterone</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Factor Explanations -->
+              <div>
+                <h4 style="color: var(--burgundy-deep); margin-bottom: 8px;">
+                  Model Rationale & Physiological Explanations
+                </h4>
+                <ul id="res-explanations-list" style="padding-left: 20px; font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;"></ul>
+              </div>
+
+              <!-- Educational Medical Disclaimer -->
+              <div class="disclaimer-banner">
+                <span class="disclaimer-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                </span>
+                <div>
+                  <strong>Medical Disclaimer:</strong>
+                  This prediction is generated by a statistical machine learning model and serves as an educational estimate only. Menstrual cycle duration is influenced by numerous neuroendocrine, environmental, and individual biological factors. It should not be used as medical advice or for contraception.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             6. MODEL EVALUATION PAGE VIEW
+             =================================================================== -->
+        <section class="page-view" id="view-evaluation">
+          <div class="view-header">
+            <h1 class="view-header-title">Random Forest Model Evaluation</h1>
+            <p class="view-header-description">
+              Evaluation metrics from the held-out test cohort. Training utilizes strict user-grouped cross-validation to prevent intra-individual data leakage across recurring cycles.
+            </p>
+          </div>
+
+          <!-- Loading state -->
+          <div id="eval-loading" class="loading-container" style="display: none;">
+            <div class="spinner"></div>
+            <span>Loading evaluation metrics...</span>
+          </div>
+
+          <!-- Data Leakage Prevention Notice -->
+          <div class="disclaimer-banner" style="margin-bottom: 24px; background-color: #f6f8f7; border-left-color: var(--sage-accent); color: #234234;">
+            <span class="disclaimer-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </span>
+            <div>
+              <strong>Rigor & Data Leakage Prevention:</strong>
+              <span id="eval-split-info">
+                User-Grouped Split: 75 Train Users (661 cycles) / 25 Test Users (234 cycles). All cycles belonging to a given user reside strictly in either train or test sets.
+              </span>
+            </div>
+          </div>
+
+          <!-- Metric Cards -->
+          <div class="grid-kpi">
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Test Accuracy</span>
+                <span class="kpi-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                </span>
+              </div>
+              <div class="kpi-value" id="eval-acc">38.9%</div>
+              <div class="kpi-subtext" id="eval-baseline-acc">Baseline: 30.3%</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Macro F1-Score</span>
+                <span class="kpi-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                </span>
+              </div>
+              <div class="kpi-value" id="eval-f1">0.386</div>
+              <div class="kpi-subtext" id="eval-f1-weighted">Weighted F1: 0.387</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Macro Precision</span>
+                <span class="kpi-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                </span>
+              </div>
+              <div class="kpi-value" id="eval-prec">0.387</div>
+              <div class="kpi-subtext">Unweighted average</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Macro Recall</span>
+                <span class="kpi-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
+              </div>
+              <div class="kpi-value" id="eval-rec">0.385</div>
+              <div class="kpi-subtext">True positive rate</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Continuous Regressor MAE</span>
+                <span class="kpi-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
+                </span>
+              </div>
+              <div class="kpi-value" id="eval-reg-mae">±6.62d</div>
+              <div class="kpi-subtext" id="eval-reg-rmse">RMSE: 7.69d</div>
+            </div>
+          </div>
+
+          <!-- Confusion Matrix & Feature Importance Row -->
+          <div class="grid-2">
+            <!-- Confusion Matrix -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-main">
+                  <h3 class="card-title">Test Cohort Confusion Matrix</h3>
+                  <span class="card-subtitle">Diagonal represents correct category classifications</span>
+                </div>
+                <span class="badge badge-rose">Held-Out Test Set</span>
+              </div>
+              <div class="card-body">
+                <div id="eval-confusion-matrix"></div>
+              </div>
+            </div>
+
+            <!-- Feature Importance -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-header-main">
+                  <h3 class="card-title">Gini Feature Importance</h3>
+                  <span class="card-subtitle">Top predictive signals identified by the Random Forest</span>
+                </div>
+                <span class="badge badge-sage">Feature Rank</span>
+              </div>
+              <div class="card-body">
+                <div class="chart-wrapper">
+                  <canvas id="chart-feature-importance"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Classification Report Table -->
+          <div class="card" style="margin-bottom: 28px;">
+            <div class="card-header">
+              <div class="card-header-main">
+                <h3 class="card-title">Per-Class Classification Report</h3>
+                <span class="card-subtitle">Performance breakdown across Short, Moderate, and Extended cycle classes</span>
+              </div>
+              <span class="badge badge-muted">Detailed Metrics</span>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Class Category</th>
+                      <th>Precision</th>
+                      <th>Recall</th>
+                      <th>F1-Score</th>
+                      <th>Test Support</th>
+                    </tr>
+                  </thead>
+                  <tbody id="eval-report-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Methodological Discussion -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-main">
+                <h3 class="card-title">Model Architecture & Biological Realism</h3>
+                <span class="card-subtitle">Discussion of baseline comparison, uncertainty, and grouping</span>
+              </div>
+            </div>
+            <div class="card-body" style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted);">
+              <p style="margin-bottom: 12px;">
+                <strong>1. Random Forest vs Dummy Baseline:</strong> The Random Forest classifier scores <strong>38.9% accuracy</strong> and a <strong>macro F1 of 0.386</strong>, outperforming the most-frequent class dummy baseline (30.3% accuracy, 0.155 macro F1).
+              </p>
+              <p style="margin-bottom: 12px;">
+                <strong>2. Biological Noise & Follicular Plasticity:</strong> Unlike artificial benchmarks, physiological menstrual cycle duration exhibits natural cycle-to-cycle dispersion of ±6.8 days even within identical individuals. Ovulation timing is susceptible to acute stress, sleep disruption, and hypothalamic signaling.
+              </p>
+              <p>
+                <strong>3. Discrete Category vs Date Mapping:</strong> The classification pipeline categorizes cycles into three clinical windows (<33d, 33-41d, >=42d). Translating this discrete classification into an exact calendar date carries an expected uncertainty range of ±2 to ±3 days, faithfully reflected in our calendar confidence interval.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             7. DATASET EXPLORER PAGE VIEW
+             =================================================================== -->
+        <section class="page-view" id="view-dataset">
+          <div class="view-header">
+            <h1 class="view-header-title">Dataset Explorer</h1>
+            <p class="view-header-description">
+              Browse, filter, sort, search, and export the complete 895 menstrual cycle records.
+            </p>
+          </div>
+
+          <!-- Filter & Search Toolbar -->
+          <div class="filter-bar">
+            <div class="filter-group-container">
+              <!-- Search -->
+              <div class="filter-item" style="min-width: 220px;">
+                <label class="filter-label" for="ds-search-input">Search Records</label>
+                <input type="text" class="form-input" id="ds-search-input" placeholder="User ID, symptom, diet...">
+              </div>
+
+              <!-- Diet Filter -->
+              <div class="filter-item">
+                <label class="filter-label" for="ds-filter-diet">Diet</label>
+                <select class="form-select" id="ds-filter-diet">
+                  <option value="">All Diets</option>
+                  <option value="Balanced">Balanced</option>
+                  <option value="Vegetarian">Vegetarian</option>
+                  <option value="Low Carb">Low Carb</option>
+                  <option value="High Sugar">High Sugar</option>
+                </select>
+              </div>
+
+              <!-- Exercise Filter -->
+              <div class="filter-item">
+                <label class="filter-label" for="ds-filter-exercise">Exercise</label>
+                <select class="form-select" id="ds-filter-exercise">
+                  <option value="">All Exercise</option>
+                  <option value="Low">Low</option>
+                  <option value="Moderate">Moderate</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+
+              <!-- Symptoms Filter -->
+              <div class="filter-item">
+                <label class="filter-label" for="ds-filter-symptoms">Symptoms</label>
+                <select class="form-select" id="ds-filter-symptoms">
+                  <option value="">All Symptoms</option>
+                  <option value="Bloating">Bloating</option>
+                  <option value="Cramps">Cramps</option>
+                  <option value="Fatigue">Fatigue</option>
+                  <option value="Headache">Headache</option>
+                  <option value="Mood Swings">Mood Swings</option>
+                </select>
+              </div>
+
+              <!-- Stress Filter -->
+              <div class="filter-item">
+                <label class="filter-label" for="ds-filter-stress">Stress</label>
+                <select class="form-select" id="ds-filter-stress">
+                  <option value="">All Stress Levels</option>
+                  <option value="1">1 (Minimal)</option>
+                  <option value="2">2 (Low)</option>
+                  <option value="3">3 (Moderate)</option>
+                  <option value="4">4 (High)</option>
+                  <option value="5">5 (Severe)</option>
+                </select>
+              </div>
+
+              <!-- Per-Page Select -->
+              <div class="filter-item">
+                <label class="filter-label" for="ds-per-page-select">Per Page</label>
+                <select class="form-select" id="ds-per-page-select">
+                  <option value="15" selected>15 records</option>
+                  <option value="25">25 records</option>
+                  <option value="50">50 records</option>
+                  <option value="100">100 records</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Export CSV Button -->
+            <button class="btn btn-secondary" id="ds-export-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Export CSV</span>
+            </button>
+          </div>
+
+          <!-- Loading state -->
+          <div id="ds-loading" class="loading-container" style="display: none;">
+            <div class="spinner"></div>
+            <span>Fetching records...</span>
+          </div>
+
+          <!-- Interactive Table -->
+          <div class="table-responsive" style="margin-bottom: 0; border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+            <table class="data-table" id="ds-table">
+              <thead>
+                <tr>
+                  <th class="sortable" data-col="User ID">User <span class="sort-icon">↕</span></th>
+                  <th class="sortable" data-col="Age">Age <span class="sort-icon">↕</span></th>
+                  <th class="sortable" data-col="BMI">BMI <span class="sort-icon">↕</span></th>
+                  <th class="sortable" data-col="Stress Level">Stress <span class="sort-icon">↕</span></th>
+                  <th class="sortable" data-col="Exercise Frequency">Exercise <span class="sort-icon">↕</span></th>
+                  <th class="sortable" data-col="Sleep Hours">Sleep <span class="sort-icon">↕</span></th>
+                  <th class="sortable" data-col="Diet">Diet <span class="sort-icon">↕</span></th>
+                  <th class="sortable" data-col="Cycle Start Date">Start Date <span class="sort-icon">▼</span></th>
+                  <th class="sortable" data-col="Cycle Length">Cycle Len <span class="sort-icon">↕</span></th>
+                  <th class="sortable" data-col="Period Length">Period Len <span class="sort-icon">↕</span></th>
+                  <th class="sortable" data-col="Next Cycle Start Date">Next Start <span class="sort-icon">↕</span></th>
+                  <th class="sortable" data-col="Symptoms">Symptoms <span class="sort-icon">↕</span></th>
+                </tr>
+              </thead>
+              <tbody id="ds-table-body"></tbody>
+            </table>
+          </div>
+
+          <!-- Pagination Container -->
+          <div class="pagination-container" style="border: 1px solid var(--border-card); border-top: none; border-bottom-left-radius: var(--radius-lg); border-bottom-right-radius: var(--radius-lg);">
+            <div class="pagination-info" id="ds-pagination-info">Showing records...</div>
+            <div class="pagination-controls" id="ds-pagination-controls"></div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/api.js"></script>
+  <script src="js/overview.js"></script>
+  <script src="js/eda.js"></script>
+  <script src="js/patterns.js"></script>
+  <script src="js/correlations.js"></script>
+  <script src="js/prediction.js"></script>
+  <script src="js/evaluation.js"></script>
+  <script src="js/dataset.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+{
+  "dataset_size": 895,
+  "train_samples": 661,
+  "test_samples": 234,
+  "train_users": 75,
+  "test_users": 25,
+  "categories": [
+    "Short (<33d)",
+    "Moderate (33-41d)",
+    "Extended (>=42d)"
+  ],
+  "class_labels": [
+    "Extended (>=42d)",
+    "Moderate (33-41d)",
+    "Short (<33d)"
+  ],
+  "category_means": {
+    "Short (<33d)": 28.567857142857143,
+    "Moderate (33-41d)": 36.909385113268605,
+    "Extended (>=42d)": 45.89869281045752
+  },
+  "metrics": {
+    "accuracy": 0.3888888888888889,
+    "precision_macro": 0.3857942823460065,
+    "recall_macro": 0.38695682547557847,
+    "f1_macro": 0.3862383230804283,
+    "f1_weighted": 0.38844255160044633,
+    "baseline_accuracy": 0.3034188034188034,
+    "baseline_f1_macro": 0.1551912568306011,
+    "reg_mae": 6.599100199693351,
+    "reg_rmse": 7.6675826556175535
+  },
+  "confusion_matrix": [
+    [
+      36,
+      31,
+      22
+    ],
+    [
+      24,
+      23,
+      24
+    ],
+    [
+      27,
+      15,
+      32
+    ]
+  ],
+  "classification_report": {
+    "Extended (>=42d)": {
+      "precision": 0.41379310344827586,
+      "recall": 0.4044943820224719,
+      "f1-score": 0.4090909090909091,
+      "support": 89.0
+    },
+    "Moderate (33-41d)": {
+      "precision": 0.3333333333333333,
+      "recall": 0.323943661971831,
+      "f1-score": 0.32857142857142857,
+      "support": 71.0
+    },
+    "Short (<33d)": {
+      "precision": 0.41025641025641024,
+      "recall": 0.43243243243243246,
+      "f1-score": 0.42105263157894735,
+      "support": 74.0
+    },
+    "accuracy": 0.3888888888888889,
+    "macro avg": {
+      "precision": 0.3857942823460065,
+      "recall": 0.38695682547557847,
+      "f1-score": 0.3862383230804283,
+      "support": 234.0
+    },
+    "weighted avg": {
+      "precision": 0.3882616548399041,
+      "recall": 0.3888888888888889,
+      "f1-score": 0.38844255160044633,
+      "support": 234.0
+    }
+  },
+  "feature_importances": [
+    {
+      "feature": "hist_mean_cycle_length",
+      "importance": 0.14182289195881403
+    },
+    {
+      "feature": "hist_std_cycle_length",
+      "importance": 0.11872730389790292
+    },
+    {
+      "feature": "Sleep Hours",
+      "importance": 0.10235175078052339
+    },
+    {
+      "feature": "Age",
+      "importance": 0.10013984694618813
+    },
+    {
+      "feature": "prev_cycle_length",
+      "importance": 0.09915502654976802
+    },
+    {
+      "feature": "BMI",
+      "importance": 0.08733789479264913
+    },
+    {
+      "feature": "prior_cycle_count",
+      "importance": 0.07431534603430241
+    },
+    {
+      "feature": "Period Length",
+      "importance": 0.050158266762158385
+    },
+    {
+      "feature": "Stress Level",
+      "importance": 0.046533083098576435
+    },
+    {
+      "feature": "Symptoms_Fatigue",
+      "importance": 0.01896815238652587
+    },
+    {
+      "feature": "Exercise Frequency_High",
+      "importance": 0.018086325198148453
+    },
+    {
+      "feature": "Diet_High Sugar",
+      "importance": 0.01713021138611605
+    },
+    {
+      "feature": "Diet_Vegetarian",
+      "importance": 0.016757182613653138
+    },
+    {
+      "feature": "Symptoms_Bloating",
+      "importance": 0.015662259641657003
+    },
+    {
+      "feature": "Symptoms_Mood Swings",
+      "importance": 0.015489621905007654
+    },
+    {
+      "feature": "Symptoms_Headache",
+      "importance": 0.01427348302685683
+    },
+    {
+      "feature": "Exercise Frequency_Moderate",
+      "importance": 0.013846571363149844
+    },
+    {
+      "feature": "Exercise Frequency_Low",
+      "importance": 0.013665006012080786
+    },
+    {
+      "feature": "Symptoms_Cramps",
+      "importance": 0.012577009655359465
+    },
+    {
+      "feature": "Diet_Balanced",
+      "importance": 0.01247159456654878
+    },
+    {
+      "feature": "Diet_Low Carb",
+      "importance": 0.01053117142401332
+    }
+  ],
+  "training_features": [
+    "Age",
+    "BMI",
+    "Stress Level",
+    "Exercise Frequency",
+    "Sleep Hours",
+    "Diet",
+    "Period Length",
+    "Symptoms",
+    "prev_cycle_length",
+    "hist_mean_cycle_length",
+    "hist_std_cycle_length",
+    "prior_cycle_count"
+  ]
+}
