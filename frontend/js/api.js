@@ -5,11 +5,11 @@
 
 const API_CONFIG = {
   // If running locally -> http://127.0.0.1:5000/api
-  // In production -> paste your Render URL here (e.g. 'https://cycle-insights-backend.onrender.com/api')
+  
   BASE_URL: (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
     ? 'http://127.0.0.1:5000/api'
-    : (window.__API_URL__ || 'https://cycle-insights-backend.onrender.com/api'),
-  // 30 seconds to accommodate Render's free tier initial spin-up if idle
+    : (window.__API_URL__ || 'https://period-dashboard.onrender.com'),
+  
   TIMEOUT_MS: 30000
 };
 
